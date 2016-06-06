@@ -46,6 +46,8 @@ RUN sed -i -e "s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf 
     sed -i -e "s/; max_input_vars\s*=\s*1000/max_input_vars = 1500/g" /etc/php/7.0/fpm/php.ini && \
     sed -i -e "s/;opcache.enable\s*=\s*0/opcache.enable=1/g" /etc/php/7.0/fpm/php.ini && \
     echo "xdebug.max_nesting_level=400" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini && \
+    echo "php_flag[display_errors] = on" >> /etc/php/7.0/fpm/pool.d/www.conf && \
+    echo "php_flag[display_startup_errors] = on" >> /etc/php/7.0/fpm/pool.d/www.conf && \
     sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php.ini;
 
 RUN usermod -u 1000 www-data && \
