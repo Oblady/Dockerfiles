@@ -15,6 +15,7 @@ RUN apt-get update -qqy && \
     composer \
     php-fpm \
     php-common \
+    php-mbstring \
     php-curl \
     php-mcrypt \
     php-soap \
