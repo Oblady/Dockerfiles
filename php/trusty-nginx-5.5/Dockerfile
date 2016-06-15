@@ -13,6 +13,7 @@ RUN apt-get update -qqy && \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
     php5-fpm \
+    php5-cli \
     php5-common \
     php5-curl \
     php5-mcrypt \
@@ -62,7 +63,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
     && chmod a+x /usr/local/bin/codecept \
-    && /usr/local/bin/composer global require hirak/prestissimo
+    && composer global require hirak/prestissimo
 
 EXPOSE 80
 
