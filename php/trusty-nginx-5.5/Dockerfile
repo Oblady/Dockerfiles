@@ -54,7 +54,6 @@ RUN usermod -u 1000 www-data && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     mkdir -p /var/www/html && \
-    mkdir /var/www/html/typo3temp /var/www/html/typo3conf /var/www/html/fileadmin /var/www/html/uploads && \
     chown -R www-data:users /var/www/html
 
 VOLUME ["/var/www/html"]
