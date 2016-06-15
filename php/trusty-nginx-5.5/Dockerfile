@@ -57,14 +57,13 @@ RUN usermod -u 1000 www-data && \
     mkdir /var/www/html/typo3temp /var/www/html/typo3conf /var/www/html/fileadmin /var/www/html/uploads && \
     chown -R www-data:users /var/www/html
 
-WORKDIR /var/www/html
-VOLUME ["/var/www/html/typo3conf", "/var/www/html/fileadmin", "/var/www/html/uploads"]
+VOLUME ["/var/www/html"]
 
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
     && chmod a+x /usr/local/bin/codecept \
-    && composer global require hirak/prestissimo
+    && /usr/local/bin/composer global require hirak/prestissimo
 
 EXPOSE 80
 
