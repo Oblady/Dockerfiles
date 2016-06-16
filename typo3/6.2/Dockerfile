@@ -9,10 +9,12 @@ ENV LANG=fr_FR.UTF-8 LANGUAGE=fr_FR:fr LC_ALL=fr_FR.UTF-8
 
 RUN apt-get update -qqy && \
     apt-get install -qqy \
+    nano \
     nginx \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
     php5-fpm \
+    php5-cli \
     php5-common \
     php5-curl \
     php5-mcrypt \
@@ -52,7 +54,11 @@ RUN usermod -u 1000 www-data && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     mkdir -p /var/www/html && \
     mkdir /var/www/html/typo3temp /var/www/html/typo3conf /var/www/html/fileadmin /var/www/html/uploads && \
-    chown -R www-data:users /var/www/html
+    chown -R www-data:users /var/www/html && \
+    crontab -l > mycron && \
+    echo "*/15 * * * * /usr/bin/php5 /var/www/html/typo3/cli_dispatch.phpsh scheduler" >> mycron && \
+    crontab mycron && \
+    rm mycron
 
 WORKDIR /var/www/html
 VOLUME ["/var/www/html/typo3conf", "/var/www/html/fileadmin", "/var/www/html/uploads"]
