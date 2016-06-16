@@ -54,11 +54,12 @@ RUN usermod -u 1000 www-data && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     mkdir -p /var/www/html && \
     mkdir /var/www/html/typo3temp /var/www/html/typo3conf /var/www/html/fileadmin /var/www/html/uploads && \
-    chown -R www-data:users /var/www/html && \
-    crontab -l > mycron && \
-    echo "*/15 * * * * /usr/bin/php5 /var/www/html/typo3/cli_dispatch.phpsh scheduler" >> mycron && \
-    crontab mycron && \
-    rm mycron
+    chown -R www-data:users /var/www/html
+    
+# Add our crontab file
+ADD cron.conf /root/cron.conf
+RUN crontab /root/cron.conf
+RUN cron
 
 WORKDIR /var/www/html
 VOLUME ["/var/www/html/typo3conf", "/var/www/html/fileadmin", "/var/www/html/uploads"]
