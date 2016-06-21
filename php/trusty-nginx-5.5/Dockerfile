@@ -61,6 +61,8 @@ RUN usermod -u 1000 www-data && \
 
 VOLUME ["/var/www/html"]
 
+WORKDIR /var/www/html
+
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
