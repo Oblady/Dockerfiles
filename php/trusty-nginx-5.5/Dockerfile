@@ -12,6 +12,8 @@ RUN apt-get update -qqy && \
     nginx \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
+    git \
+    wkhtmltopdf \
     php5-fpm \
     php5-cli \
     php5-common \
