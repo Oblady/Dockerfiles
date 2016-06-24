@@ -64,6 +64,12 @@ RUN cron
 WORKDIR /var/www/html
 VOLUME ["/var/www/html/typo3conf", "/var/www/html/fileadmin", "/var/www/html/uploads"]
 
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
+    && chmod a+x /usr/local/bin/codecept \
+    && composer global require hirak/prestissimo
+
 # Set this to the latest TYPO3 CMS version:
 ENV TYPO3_VERSION 6.2.25
 
