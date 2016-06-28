@@ -12,7 +12,6 @@ RUN apt-get update -qqy && \
     apt-get install -qqy \
     nano \
     nginx \
-    phantomjs \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
     php5-fpm \
@@ -71,6 +70,12 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
     && chmod a+x /usr/local/bin/codecept \
     && composer global require hirak/prestissimo
+    
+RUN mkdir /tmp/phantomjs \
+    && curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+           | tar -xj --strip-components=1 -C /tmp/phantomjs \
+    && cd /tmp/phantomjs \
+    && mv bin/phantomjs /usr/local/bin
 
 # Set this to the latest TYPO3 CMS version:
 ENV TYPO3_VERSION 6.2.25
@@ -82,4 +87,4 @@ RUN curl -L  http://prdownloads.sourceforge.net/typo3/typo3_src-${TYPO3_VERSION}
 
 EXPOSE 80
 
-CMD codecept bootstrap --empty && /usr/sbin/php5-fpm -D && /usr/sbin/nginx
+CMD codecept bootstrap --empty && /usr/sbin/php5-fpm -D && /usr/sbin/nginx && /usr/local/bin/phantomjs --webdriver=4444
