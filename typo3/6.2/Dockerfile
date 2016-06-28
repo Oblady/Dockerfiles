@@ -6,11 +6,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN locale-gen fr_FR.UTF-8
 ENV LANG=fr_FR.UTF-8 LANGUAGE=fr_FR:fr LC_ALL=fr_FR.UTF-8
+ENV TERM=xterm
 
 RUN apt-get update -qqy && \
     apt-get install -qqy \
     nano \
     nginx \
+    phantomjs \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
     php5-fpm \
