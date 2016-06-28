@@ -2,10 +2,10 @@ FROM python:2.7
 
 MAINTAINER Jean Traullé <jean@oblady.fr>
 
-RUN apt-get update                                       && \
-    apt-get install -y --no-install-recommends graphviz  && \
-    apt-get autoremove -y                                && \
-    rm -rf /var/cache/*                                  && \
+RUN apt-get update                                                      && \
+    apt-get install -y --no-install-recommends openjdk-7-jre graphviz   && \
+    apt-get autoremove -y                                               && \
+    rm -rf /var/cache/*                                                 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
@@ -21,6 +21,8 @@ RUN pip install 'Sphinx                        == 1.3.6' \
                 'sphinxcontrib-plantuml        == 0.7'   \
                 'sphinxcontrib-seqdiag         == 0.8.5' \
                 'livereload                    == 2.4.1'
+
+ADD plantuml.jar /opt/plantuml.jar
 
 ENV DOC_DIR /doc
 
