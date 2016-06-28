@@ -81,4 +81,4 @@ RUN curl -L  http://prdownloads.sourceforge.net/typo3/typo3_src-${TYPO3_VERSION}
 
 EXPOSE 80
 
-CMD codecept bootstrap --empty && /usr/sbin/php5-fpm -D && /usr/sbin/nginx
+CMD /usr/local/bin/codecept bootstrap --empty && /usr/sbin/php5-fpm && /usr/sbin/nginx
