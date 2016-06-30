@@ -23,7 +23,7 @@ RUN apt-get update -qqy && \
     php5-intl \
     php5-gd \
     php5-imagick \
-    php5-memcached \
+    php5-memcache \
     php5-xdebug \
     curl \
     sendmail && \
