@@ -6,13 +6,16 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN locale-gen fr_FR.UTF-8
 ENV LANG=fr_FR.UTF-8 LANGUAGE=fr_FR:fr LC_ALL=fr_FR.UTF-8
+ENV TERM=xterm
 
 RUN apt-get update -qqy && \
     apt-get install -qqy \
+    nano \
     nginx \
     graphicsmagick \
     graphicsmagick-imagemagick-compat \
     php5-fpm \
+    php5-cli \
     php5-common \
     php5-curl \
     php5-mcrypt \
@@ -20,6 +23,7 @@ RUN apt-get update -qqy && \
     php5-intl \
     php5-gd \
     php5-imagick \
+    php5-memcache \
     php5-xdebug \
     curl \
     sendmail && \
@@ -40,6 +44,10 @@ RUN sed -i -e "s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf 
     sed -i -e "s/max_execution_time\s*=\s*30/max_execution_time = 240/g" /etc/php5/fpm/php.ini && \
     sed -i -e "s/;opcache.enable\s*=\s*0/opcache.enable=1/g" /etc/php5/fpm/php.ini && \
     echo "xdebug.max_nesting_level=400" >> /etc/php5/fpm/conf.d/20-xdebug.ini && \
+    echo "xdebug.remote_enable=1" >> /etc/php5/fpm/conf.d/20-xdebug.ini && \
+    echo "php_flag[display_errors] = on" >> /etc/php5/fpm/pool.d/www.conf && \
+    echo "php_flag[display_startup_errors] = on" >> /etc/php5/fpm/pool.d/www.conf && \
+    echo "request_terminate_timeout = 300" >> /etc/php5/fpm/pool.d/www.conf && \
     sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php.ini;
 
 RUN usermod -u 1000 www-data && \
@@ -53,9 +61,20 @@ RUN usermod -u 1000 www-data && \
     mkdir -p /var/www/html && \
     mkdir /var/www/html/typo3temp /var/www/html/typo3conf /var/www/html/fileadmin /var/www/html/uploads && \
     chown -R www-data:users /var/www/html
+    
+# Add our crontab file
+ADD cron.conf /root/cron.conf
+RUN crontab /root/cron.conf
+RUN cron
 
 WORKDIR /var/www/html
 VOLUME ["/var/www/html/typo3conf", "/var/www/html/fileadmin", "/var/www/html/uploads"]
+
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept \
+    && chmod a+x /usr/local/bin/codecept \
+    && composer global require hirak/prestissimo
 
 # Set this to the latest TYPO3 CMS version:
 ENV TYPO3_VERSION 6.2.25
@@ -66,5 +85,6 @@ RUN curl -L  http://prdownloads.sourceforge.net/typo3/typo3_src-${TYPO3_VERSION}
     ln -s typo3_src/typo3 typo3
 
 EXPOSE 80
+EXPOSE 9000
 
-CMD /usr/sbin/php5-fpm -D && /usr/sbin/nginx
+CMD /usr/local/bin/codecept bootstrap --empty && /usr/sbin/php5-fpm && /usr/sbin/nginx
