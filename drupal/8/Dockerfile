@@ -1,11 +1,6 @@
 FROM drupal:8
 MAINTAINER jean@oblady.fr
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN locale-gen fr_FR.UTF-8
-ENV LANG=fr_FR.UTF-8 LANGUAGE=fr_FR:fr LC_ALL=fr_FR.UTF-8
-
 # Install packages.
 RUN apt-get update && apt-get install -y \
   php5-cli && \
