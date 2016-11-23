@@ -1,9 +1,17 @@
 FROM drupal:8
 MAINTAINER jean@oblady.fr
 
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN locale-gen fr_FR.UTF-8
+ENV LANG=fr_FR.UTF-8 LANGUAGE=fr_FR:fr LC_ALL=fr_FR.UTF-8
+
 # Install packages.
 RUN apt-get update && apt-get install -y \
   php5-cli && \
+  php-gd && \
+  nano && \
+  curl && \
   apt-get clean
   
 RUN { \
@@ -16,3 +24,7 @@ RUN { \
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+# Install drupal console
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
+    mv drupal.phar /usr/local/bin/drupal && \
+    composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader
