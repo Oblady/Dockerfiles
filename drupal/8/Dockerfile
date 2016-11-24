@@ -3,9 +3,9 @@ MAINTAINER jean@oblady.fr
 
 # Install packages.
 RUN apt-get update && apt-get install -y \
-  php5-cli && \
-  php-gd && \
-  nano && \
+  php5-cli \
+  php-gd \
+  nano \
   curl && \
   apt-get clean
   
