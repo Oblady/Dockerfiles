@@ -26,6 +26,7 @@ RUN apt-get update -qqy && \
     php5-memcache \
     php5-xdebug \
     python \
+    unzip \
     curl \
     sendmail && \
     apt-get clean && \
