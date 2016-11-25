@@ -25,6 +25,7 @@ RUN apt-get update -qqy && \
     php5-imagick \
     php5-memcache \
     php5-xdebug \
+    python \
     curl \
     sendmail && \
     apt-get clean && \
