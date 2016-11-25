@@ -79,7 +79,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && composer global require hirak/prestissimo
 
 # Set this to the latest TYPO3 CMS version:
-ENV TYPO3_VERSION 6.2.25
+ENV TYPO3_VERSION 6.2.29
 
 RUN curl -L  http://prdownloads.sourceforge.net/typo3/typo3_src-${TYPO3_VERSION}.tar.gz | tar zxf - && \
     ln -s typo3_src-${TYPO3_VERSION} typo3_src && \
