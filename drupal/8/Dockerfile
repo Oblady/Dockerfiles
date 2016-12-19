@@ -32,9 +32,5 @@ RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > 
 RUN composer config repositories.drupal composer https://packagist.drupal-composer.org && \
     composer require "drupal/search_api_solr 8.1.0-beta1"
 
-# Allow social timeline scripts to be executed
-RUN echo '' >> .htaccess && \
-    echo '<IfModule mod_rewrite.c>' >> .htaccess && \
-    echo '    RewriteCond %{REQUEST_URI} !/modules/social_timeline/library/youtube_auth/youtube.php$' >> .htaccess && \
-    echo '    RewriteCond %{REQUEST_URI} !/modules/social_timeline/library/twitter_oauth/user_timeline.php$' >> .htaccess && \
-    echo '</IfModule>' >> .htaccess
+# Allow social timeline scripts to be executed (custom .htaccess)
+ADD .htaccess /var/www/html/.htaccess
