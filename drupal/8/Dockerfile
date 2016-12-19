@@ -4,7 +4,6 @@ MAINTAINER jean@oblady.fr
 # Install packages.
 RUN apt-get update && apt-get install -y \
   php5-cli \
-  php-gd \
   nano \
   curl && \
   apt-get clean
@@ -23,3 +22,9 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
     composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader
+   
+# Install drush
+RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush && \
+    chmod +x drush && \
+    mv drush /usr/local/bin && \
+    drush init
