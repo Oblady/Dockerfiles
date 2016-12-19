@@ -27,3 +27,7 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
 RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush && \
     chmod +x drush && \
     mv drush /usr/local/bin
+
+# Install Solar API
+RUN composer config repositories.drupal composer https://packagist.drupal-composer.org && \
+    composer require "drupal/search_api_solr 8.1.0-beta1"
