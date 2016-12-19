@@ -26,5 +26,4 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
 # Install drush
 RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush && \
     chmod +x drush && \
-    mv drush /usr/local/bin && \
-    drush init
+    mv drush /usr/local/bin
