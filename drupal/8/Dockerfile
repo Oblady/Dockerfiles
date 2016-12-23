@@ -5,6 +5,8 @@ MAINTAINER jean@oblady.fr
 RUN apt-get update && apt-get install -y \
   php5-cli \
   nano \
+  git \
+  mysql_client \
   curl && \
   apt-get clean
   
